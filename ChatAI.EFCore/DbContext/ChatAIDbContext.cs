@@ -24,10 +24,14 @@ public class ChatAIDbContext : DbContext
         modelBuilder.Entity<ChatMessage>().ToTable("Chats");
         modelBuilder.Entity<ChatSession>().ToTable("ChatSessions");
         modelBuilder.Entity<UserPrefence>().ToTable("UserPrefences");
-        
+
         modelBuilder.Entity<User>()
             .HasIndex(u => u.Email)
             .IsUnique();
+        
+        modelBuilder.Entity<User>()
+            .Property(u => u.UpdatedAt)
+            .HasDefaultValue(null);
         
         modelBuilder.Entity<ChatSession>()
             .HasOne(cs => cs.User)

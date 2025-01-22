@@ -1,3 +1,6 @@
+using System.Security.Cryptography;
+using System.Text;
+
 namespace ChatAI.Domain.Entity;
 
 public class User
@@ -7,10 +10,10 @@ public class User
     public string Email { get; set; }
     public string PasswordHash { get; set; }
     public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
     public IEnumerable<ChatSession>? ChatSessions { get; set; }
     
-    public User(string name, string email)
+    public User(string name, string email, string passwordHash)
     {
         if (string.IsNullOrWhiteSpace(name))
         {
@@ -25,6 +28,7 @@ public class User
         }
         
         Email = email;
+        PasswordHash = HashPassword(passwordHash);
         CreatedAt = DateTime.UtcNow.Date;
     }
     
@@ -39,5 +43,15 @@ public class User
         {
             return false;
         }
+    }
+    
+    private string HashPassword(string password)
+    {
+        return BCrypt.Net.BCrypt.HashPassword(password);
+    }
+    
+    public bool VerifyPassword(string password)
+    {
+        return BCrypt.Net.BCrypt.Verify(password, PasswordHash);
     }
 }

@@ -1,6 +1,7 @@
 using AutoMapper;
 using ChatAI.Application.Dto;
 using ChatAI.Application.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -53,6 +54,28 @@ namespace ChatAI.Api.Controller
             }
             
             return Ok(user);
+        }
+        
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(string email, string password)
+        {
+            try
+            {
+                var token = await _userService.Login(email, password);
+                if (string.IsNullOrEmpty(token))
+                {
+                    return StatusCode(StatusCodes.Status401Unauthorized, "Invalid email or password");
+                }
+                return Ok(token);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, e.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
         }
         
         [HttpGet]

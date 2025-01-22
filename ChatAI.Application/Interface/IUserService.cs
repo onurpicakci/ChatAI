@@ -12,4 +12,5 @@ public interface IUserService
     Task AddAsync(AddUserDto entity);
     Task UpdateAsync(UserDto entity);
     Task DeleteAsync(UserDto entity);
+    Task<string> Login(string email, string password);
 }

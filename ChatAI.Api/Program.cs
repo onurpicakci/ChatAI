@@ -1,3 +1,5 @@
+using System.Text;
+using ChatAI.Application.Helper;
 using ChatAI.Application.Interface;
 using ChatAI.Application.Mapper;
 using ChatAI.Application.Service;
@@ -5,7 +7,9 @@ using ChatAI.EFCore.DbContext;
 using ChatAI.Persistence.Cache;
 using ChatAI.Persistence.Interface;
 using ChatAI.Persistence.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,8 +32,26 @@ builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
 builder.Services.AddControllers();
 
 builder.Services.AddSingleton<RedisCache>();
+builder.Services.AddScoped<JwtHelper>(sp => 
+    new JwtHelper(builder.Configuration["Jwt:Key"], builder.Configuration["Jwt:Issuer"]));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]))
+        };
+    });
+
 
 var app = builder.Build();
 

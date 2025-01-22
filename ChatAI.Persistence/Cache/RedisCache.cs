@@ -23,4 +23,9 @@ public class RedisCache
     {
         await Db.StringSetAsync(key, JsonSerializer.Serialize(value), expiry);
     }
+    
+    public async Task RemoveAsync(string key)
+    {
+        await Db.KeyDeleteAsync(key);
+    }
 }
