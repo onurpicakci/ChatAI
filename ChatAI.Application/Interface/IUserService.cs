@@ -1,5 +1,4 @@
-using ChatAI.Application.Dto;
-using ChatAI.Domain.Entity;
+using ChatAI.Application.Dto.User;
 
 namespace ChatAI.Application.Interface;
 

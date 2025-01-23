@@ -1,4 +1,4 @@
-using ChatAI.Domain.Entity;
+using ChatAI.Domain.Entity.User;
 using ChatAI.EFCore.DbContext;
 using ChatAI.Persistence.Interface;
 using Microsoft.EntityFrameworkCore;

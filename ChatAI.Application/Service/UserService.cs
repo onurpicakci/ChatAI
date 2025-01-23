@@ -1,8 +1,8 @@
 using AutoMapper;
-using ChatAI.Application.Dto;
+using ChatAI.Application.Dto.User;
 using ChatAI.Application.Helper;
 using ChatAI.Application.Interface;
-using ChatAI.Domain.Entity;
+using ChatAI.Domain.Entity.User;
 using ChatAI.Persistence.Cache;
 using ChatAI.Persistence.Interface;
 
@@ -11,8 +11,8 @@ namespace ChatAI.Application.Service;
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
-    private readonly RedisCache _redisCache;
     private readonly IMapper _mapper;
+    private readonly RedisCache _redisCache;
     private readonly JwtHelper _jwtHelper;
 
     public UserService(IUserRepository userRepository, RedisCache redisCache, IMapper mapper, JwtHelper jwtHelper)

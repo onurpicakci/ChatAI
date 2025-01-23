@@ -1,7 +1,6 @@
-using System.Security.Cryptography;
-using System.Text;
+using ChatAI.Domain.Entity.Chat;
 
-namespace ChatAI.Domain.Entity;
+namespace ChatAI.Domain.Entity.User;
 
 public class User
 {

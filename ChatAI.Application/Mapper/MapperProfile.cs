@@ -1,6 +1,6 @@
 using AutoMapper;
-using ChatAI.Application.Dto;
-using ChatAI.Domain.Entity;
+using ChatAI.Application.Dto.User;
+using ChatAI.Domain.Entity.User;
 
 namespace ChatAI.Application.Mapper;
 

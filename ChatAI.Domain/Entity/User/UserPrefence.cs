@@ -1,4 +1,4 @@
-namespace ChatAI.Domain.Entity;
+namespace ChatAI.Domain.Entity.User;
 
 public class UserPrefence
 {

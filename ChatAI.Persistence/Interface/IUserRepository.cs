@@ -1,4 +1,4 @@
-using ChatAI.Domain.Entity;
+using ChatAI.Domain.Entity.User;
 
 namespace ChatAI.Persistence.Interface;
 

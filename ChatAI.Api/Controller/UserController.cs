@@ -1,8 +1,6 @@
 using AutoMapper;
-using ChatAI.Application.Dto;
+using ChatAI.Application.Dto.User;
 using ChatAI.Application.Interface;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChatAI.Api.Controller
