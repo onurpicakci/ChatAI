@@ -16,6 +16,6 @@ public class ChatMessageService : IChatMessageService
 
     public Task<string> GetChatGptResponseAsync(string userMessage, Guid chatSessionId, Guid userId)
     {
-        throw new NotImplementedException();
+        return null;
     }
 }
