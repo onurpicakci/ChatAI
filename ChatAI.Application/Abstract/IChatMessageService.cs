@@ -1,6 +1,10 @@
-﻿namespace ChatAI.Application.Interface;
+﻿using ChatAI.Application.Dto.Chats;
+using ChatAI.Domain.Entity.Chat;
+
+namespace ChatAI.Application.Interface;
 
 public interface IChatMessageService
 {
-    Task<string> GetChatGptResponseAsync(string userMessage, Guid chatSessionId, Guid userId);
+    Task<IEnumerable<ChatMessageDto>> GetMessagesBySessionIdAsync(Guid sessionId);
+    Task<ChatMessageDto> SendMessageAsync(Guid sessionId, string userMessage);
 }

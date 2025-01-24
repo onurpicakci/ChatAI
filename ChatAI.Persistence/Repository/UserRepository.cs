@@ -1,6 +1,6 @@
 using ChatAI.Domain.Entity.User;
 using ChatAI.EFCore.DbContext;
-using ChatAI.Persistence.Interface;
+using ChatAI.Persistence.Abstract;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChatAI.Persistence.Repository;

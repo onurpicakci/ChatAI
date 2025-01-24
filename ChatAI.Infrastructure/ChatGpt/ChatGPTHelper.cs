@@ -8,9 +8,10 @@ public class ChatGPTHelper
 {
     private readonly OpenAIAPI _openAI;
 
-    public ChatGPTHelper(OpenAIAPI openAı)
+    public ChatGPTHelper()
     {
-        _openAI = openAı;
+        string apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
+        _openAI = new OpenAIAPI(apiKey);
     }
 
     public async Task<string?> GenerateResponseAsync(string prompt)

@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatAI.Persistence", "ChatA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatAI.EFCore", "ChatAI.EFCore\ChatAI.EFCore.csproj", "{857C2D22-1957-43FE-B611-A02BC623CF62}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatAI.Infrastructure", "ChatAI.Infrastructure\ChatAI.Infrastructure.csproj", "{29824AF1-4D15-4B73-BBC5-5A2749B7BB6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{857C2D22-1957-43FE-B611-A02BC623CF62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{857C2D22-1957-43FE-B611-A02BC623CF62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{857C2D22-1957-43FE-B611-A02BC623CF62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29824AF1-4D15-4B73-BBC5-5A2749B7BB6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29824AF1-4D15-4B73-BBC5-5A2749B7BB6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29824AF1-4D15-4B73-BBC5-5A2749B7BB6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29824AF1-4D15-4B73-BBC5-5A2749B7BB6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

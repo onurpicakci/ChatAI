@@ -1,5 +1,6 @@
+using System.Linq.Expressions;
 using ChatAI.EFCore.DbContext;
-using ChatAI.Persistence.Interface;
+using ChatAI.Persistence.Abstract;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChatAI.Persistence.Repository;
@@ -20,9 +21,16 @@ public class GenericRepository<T> : IRepository<T> where T : class
         return await _dbSet.FindAsync(id);
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync()
+    public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter = null)
     {
-        return await _dbSet.ToListAsync();
+        IQueryable<T> query = _dbSet;
+
+        if (filter != null)
+        {
+            query = query.Where(filter);
+        }
+
+        return await query.ToListAsync();
     }
 
     public async Task AddAsync(T entity)

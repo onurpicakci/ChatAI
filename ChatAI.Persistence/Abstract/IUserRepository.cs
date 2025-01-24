@@ -1,6 +1,6 @@
 using ChatAI.Domain.Entity.User;
 
-namespace ChatAI.Persistence.Interface;
+namespace ChatAI.Persistence.Abstract;
 
 public interface IUserRepository : IRepository<User>
 {

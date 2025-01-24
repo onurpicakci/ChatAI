@@ -1,21 +1,60 @@
-﻿using ChatAI.Application.Interface;
+﻿using AutoMapper;
+using ChatAI.Application.Dto.Chats;
+using ChatAI.Application.Interface;
+using ChatAI.Domain.Entity.Chat;
+using ChatAI.Helper.ChatGpt;
+using ChatAI.Persistence.Abstract;
 using OpenAI.API;
 
 namespace ChatAI.Application.Service;
 
-public class ChatMessageService : IChatMessageService
+public class ChatMessageService : BaseMapperService, IChatMessageService
 {
-    private readonly OpenAIAPI _openAI;
-    private readonly IChatMessageService _chatMessageService;
+    private readonly ChatGPTHelper _chatGptHelper;
+    private readonly IChatMessageRepository _chatMessageRepository;
 
-    public ChatMessageService(OpenAIAPI openAı, IChatMessageService chatAıService)
+    public ChatMessageService(IChatMessageRepository chatAIRepository, ChatGPTHelper chatGptHelper, IMapper mapper) : base(mapper)
     {
-        _openAI = openAı;
-        _chatMessageService = chatAıService;
+        _chatMessageRepository = chatAIRepository;
+        _chatGptHelper = chatGptHelper;
+    }
+    public async Task<IEnumerable<ChatMessageDto>> GetMessagesBySessionIdAsync(Guid sessionId)
+    {
+       var message = await _chatMessageRepository.GetAllAsync(x => x.ChatSessionId == sessionId);
+
+       return MapList<ChatMessage, ChatMessageDto>(message);
     }
 
-    public Task<string> GetChatGptResponseAsync(string userMessage, Guid chatSessionId, Guid userId)
+    public async Task<ChatMessageDto> SendMessageAsync(Guid sessionId, string userMessage)
     {
-        return null;
+        var userChatMessage = new ChatMessageDto
+        {
+            ChatSessionId = sessionId,
+            MessageContent = userMessage,
+            Timestamp = DateTime.UtcNow,
+            IsBotMessage = false
+        };
+
+        await _chatMessageRepository.AddAsync(Map<ChatMessageDto, ChatMessage>(userChatMessage));
+
+        var response = await _chatGptHelper.GenerateResponseAsync(userMessage);
+
+        if (string.IsNullOrEmpty(response))
+        {
+            throw new InvalidOperationException("No chatbot response received");
+        }
+
+        var botChatMessage = new ChatMessageDto
+        {
+            ChatSessionId = sessionId,
+            MessageContent = response, 
+            Timestamp = DateTime.UtcNow,
+            IsBotMessage = true
+        };
+
+        await _chatMessageRepository.AddAsync(Map<ChatMessageDto, ChatMessage>(botChatMessage));
+
+        return botChatMessage;
     }
+
 }

@@ -1,11 +1,11 @@
 using System.Text;
-using ChatAI.Application.Helper;
 using ChatAI.Application.Interface;
 using ChatAI.Application.Mapper;
 using ChatAI.Application.Service;
 using ChatAI.EFCore.DbContext;
-using ChatAI.Persistence.Cache;
-using ChatAI.Persistence.Interface;
+using ChatAI.Helper.Jwt;
+using ChatAI.Helper.Redis;
+using ChatAI.Persistence.Abstract;
 using ChatAI.Persistence.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;

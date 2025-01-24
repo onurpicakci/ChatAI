@@ -1,25 +1,23 @@
 using AutoMapper;
 using ChatAI.Application.Dto.User;
-using ChatAI.Application.Helper;
 using ChatAI.Application.Interface;
 using ChatAI.Domain.Entity.User;
-using ChatAI.Persistence.Cache;
-using ChatAI.Persistence.Interface;
+using ChatAI.Helper.Jwt;
+using ChatAI.Helper.Redis;
+using ChatAI.Persistence.Abstract;
 
 namespace ChatAI.Application.Service;
 
-public class UserService : IUserService
+public class UserService : BaseMapperService, IUserService
 {
     private readonly IUserRepository _userRepository;
-    private readonly IMapper _mapper;
     private readonly RedisCache _redisCache;
     private readonly JwtHelper _jwtHelper;
 
-    public UserService(IUserRepository userRepository, RedisCache redisCache, IMapper mapper, JwtHelper jwtHelper)
+    public UserService(IUserRepository userRepository, RedisCache redisCache, IMapper mapper, JwtHelper jwtHelper) : base(mapper)
     {
         _userRepository = userRepository;
         _redisCache = redisCache;
-        _mapper = mapper;
         _jwtHelper = jwtHelper;
     }
 
@@ -28,7 +26,7 @@ public class UserService : IUserService
         var cachedUser = await _redisCache.GetAsync<User>($"user:name:{name}");
         if (cachedUser != null)
         {
-            return _mapper.Map<UserDto>(cachedUser);
+            return Map<User, UserDto>(cachedUser);
         }
 
         var user = await _userRepository.GetByNameAsync(name);
@@ -37,7 +35,7 @@ public class UserService : IUserService
             await _redisCache.SetAsync($"user:name:{name}", user);
         }
 
-        return _mapper.Map<UserDto>(user);
+        return Map<User, UserDto>(user);
     }
 
     public async Task<UserDto> GetByEmailAsync(string email)
@@ -45,7 +43,7 @@ public class UserService : IUserService
         var cachedUser = await _redisCache.GetAsync<User>($"user:email:{email}");
         if (cachedUser != null)
         {
-            return _mapper.Map<UserDto>(cachedUser);
+            return Map<User, UserDto>(cachedUser);
         }
 
         var user = await _userRepository.GetByEmailAsync(email);
@@ -54,7 +52,7 @@ public class UserService : IUserService
             await _redisCache.SetAsync($"user:email:{email}", user);
         }
 
-        return _mapper.Map<UserDto>(user);
+        return Map<User, UserDto>(user);
     }
 
     public async Task<UserDto> GetByIdAsync(Guid id)
@@ -62,7 +60,7 @@ public class UserService : IUserService
         var cachedUser = await _redisCache.GetAsync<User>($"user:id:{id}");
         if (cachedUser != null)
         {
-            return _mapper.Map<UserDto>(cachedUser);
+            return Map<User, UserDto>(cachedUser);
         }
 
         var user = await _userRepository.GetByIdAsync(id);
@@ -71,20 +69,20 @@ public class UserService : IUserService
             await _redisCache.SetAsync($"user:id:{id}", user);
         }
 
-        return _mapper.Map<UserDto>(user);
+        return Map<User, UserDto>(user);
     }
 
     public async Task<IEnumerable<UserDto>> GetAllAsync()
     {
         var users = await _userRepository.GetAllAsync();
-        return _mapper.Map<IEnumerable<UserDto>>(users);
+        return MapList<User, UserDto>(users);
     }
 
     public async Task AddAsync(AddUserDto entity)
     {
         var passwordHash = BCrypt.Net.BCrypt.HashPassword(entity.Password);
 
-        var userEntity = new User(entity.Name, entity.Email, passwordHash);
+        var userEntity = Map<AddUserDto, User>(entity);
         await _userRepository.AddAsync(userEntity);
         
         // Add to Cache
@@ -95,7 +93,7 @@ public class UserService : IUserService
 
     public async Task UpdateAsync(UserDto entity)
     {
-        var userEntity = _mapper.Map<User>(entity);
+        var userEntity = Map<UserDto, User>(entity);
         await _userRepository.UpdateAsync(userEntity);
 
         // Update Cache
@@ -106,7 +104,7 @@ public class UserService : IUserService
 
     public async Task DeleteAsync(UserDto entity)
     {
-        var userEntity = _mapper.Map<User>(entity);
+        var userEntity = Map<UserDto, User>(entity);
         await _userRepository.DeleteAsync(userEntity);
 
         // Remove cache
