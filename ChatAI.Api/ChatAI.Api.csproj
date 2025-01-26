@@ -29,11 +29,8 @@
     <ItemGroup>
       <ProjectReference Include="..\ChatAI.Application\ChatAI.Application.csproj" />
       <ProjectReference Include="..\ChatAI.EFCore\ChatAI.EFCore.csproj" />
+      <ProjectReference Include="..\ChatAI.Infrastructure\ChatAI.Infrastructure.csproj" />
       <ProjectReference Include="..\ChatAI.Persistence\ChatAI.Persistence.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Controller\" />
     </ItemGroup>
 
 </Project>

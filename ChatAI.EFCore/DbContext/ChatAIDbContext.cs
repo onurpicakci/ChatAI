@@ -39,5 +39,10 @@ public class ChatAIDbContext : DbContext
             .WithMany(u => u.ChatSessions)
             .HasForeignKey(cs => cs.UserId);
         
+        modelBuilder.Entity<ChatSession>()
+            .HasMany(cs => cs.ChatMessages)
+            .WithOne(cm => cm.ChatSession)
+            .HasForeignKey(cm => cm.ChatSessionId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

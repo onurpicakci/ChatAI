@@ -18,7 +18,7 @@ public class ChatGPTHelper
     {
         var completionRequest = new CompletionRequest
         {
-            Model = Model.DavinciText,
+            Model = "gpt-3.5-turbo",
             Prompt = prompt,
             MaxTokens = 150,
             Temperature = 0.7

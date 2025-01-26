@@ -3,10 +3,12 @@ using ChatAI.Application.Interface;
 using ChatAI.Application.Mapper;
 using ChatAI.Application.Service;
 using ChatAI.EFCore.DbContext;
+using ChatAI.Helper.ChatGpt;
 using ChatAI.Helper.Jwt;
 using ChatAI.Helper.Redis;
 using ChatAI.Persistence.Abstract;
 using ChatAI.Persistence.Repository;
+using ChatAI.Persistence.Repository.Chat;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -27,6 +29,11 @@ builder.Services.AddSingleton<ConnectionMultiplexer>(sp =>
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IChatMessageRepository, ChatMessageRepository>();
+builder.Services.AddScoped<IChatMessageService, ChatMessageService>();
+builder.Services.AddScoped<IChatSessionRepository, ChatSessionRepository>();
+builder.Services.AddScoped<IChatSessionService, ChatSessionService>();
+builder.Services.AddScoped<ChatGPTHelper>();
 
 builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
 builder.Services.AddControllers();

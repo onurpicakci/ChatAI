@@ -9,4 +9,6 @@ public class ChatSession
     public DateTime StartTimestamp { get; set; }
     public DateTime EndTimestamp { get; set; }
     public bool IsActive { get; set; }
+    
+    public ICollection<ChatMessage> ChatMessages { get; set; }
 }

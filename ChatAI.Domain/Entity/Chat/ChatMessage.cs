@@ -21,6 +21,7 @@ public class ChatMessage
             throw new ArgumentException("Message content cannot be null or empty", nameof(messageContent));
         }
 
+        Id = Guid.NewGuid();
         ChatSessionId = chatSessionId;
         MessageContent = messageContent;
         IsBotMessage = isBotMessage;

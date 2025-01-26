@@ -4,7 +4,6 @@ using ChatAI.Application.Interface;
 using ChatAI.Domain.Entity.Chat;
 using ChatAI.Helper.ChatGpt;
 using ChatAI.Persistence.Abstract;
-using OpenAI.API;
 
 namespace ChatAI.Application.Service;
 

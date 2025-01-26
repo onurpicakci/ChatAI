@@ -22,7 +22,7 @@ namespace ChatAI.EFCore.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ChatAI.Domain.Entity.ChatMessage", b =>
+            modelBuilder.Entity("ChatAI.Domain.Entity.Chat.ChatMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -48,7 +48,7 @@ namespace ChatAI.EFCore.Migrations
                     b.ToTable("Chats", (string)null);
                 });
 
-            modelBuilder.Entity("ChatAI.Domain.Entity.ChatSession", b =>
+            modelBuilder.Entity("ChatAI.Domain.Entity.Chat.ChatSession", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -77,7 +77,7 @@ namespace ChatAI.EFCore.Migrations
                     b.ToTable("ChatSessions", (string)null);
                 });
 
-            modelBuilder.Entity("ChatAI.Domain.Entity.User", b =>
+            modelBuilder.Entity("ChatAI.Domain.Entity.User.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -109,7 +109,7 @@ namespace ChatAI.EFCore.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("ChatAI.Domain.Entity.UserPrefence", b =>
+            modelBuilder.Entity("ChatAI.Domain.Entity.User.UserPrefence", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -133,10 +133,10 @@ namespace ChatAI.EFCore.Migrations
                     b.ToTable("UserPrefences", (string)null);
                 });
 
-            modelBuilder.Entity("ChatAI.Domain.Entity.ChatMessage", b =>
+            modelBuilder.Entity("ChatAI.Domain.Entity.Chat.ChatMessage", b =>
                 {
-                    b.HasOne("ChatAI.Domain.Entity.ChatSession", "ChatSession")
-                        .WithMany()
+                    b.HasOne("ChatAI.Domain.Entity.Chat.ChatSession", "ChatSession")
+                        .WithMany("ChatMessages")
                         .HasForeignKey("ChatSessionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -144,9 +144,9 @@ namespace ChatAI.EFCore.Migrations
                     b.Navigation("ChatSession");
                 });
 
-            modelBuilder.Entity("ChatAI.Domain.Entity.ChatSession", b =>
+            modelBuilder.Entity("ChatAI.Domain.Entity.Chat.ChatSession", b =>
                 {
-                    b.HasOne("ChatAI.Domain.Entity.User", "User")
+                    b.HasOne("ChatAI.Domain.Entity.User.User", "User")
                         .WithMany("ChatSessions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -155,9 +155,9 @@ namespace ChatAI.EFCore.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ChatAI.Domain.Entity.UserPrefence", b =>
+            modelBuilder.Entity("ChatAI.Domain.Entity.User.UserPrefence", b =>
                 {
-                    b.HasOne("ChatAI.Domain.Entity.User", "User")
+                    b.HasOne("ChatAI.Domain.Entity.User.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -166,7 +166,12 @@ namespace ChatAI.EFCore.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ChatAI.Domain.Entity.User", b =>
+            modelBuilder.Entity("ChatAI.Domain.Entity.Chat.ChatSession", b =>
+                {
+                    b.Navigation("ChatMessages");
+                });
+
+            modelBuilder.Entity("ChatAI.Domain.Entity.User.User", b =>
                 {
                     b.Navigation("ChatSessions");
                 });
